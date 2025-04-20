@@ -8,20 +8,18 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddErrorHandlingWithRules();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(opts =>
+    {
+        opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+        opts.JsonSerializerOptions.WriteIndented = true;
+        opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 
 builder.Services.AddOpenApi();
 builder.Services.AddApplication();
 builder.AddPostgres();
 builder.Services.AddInfrastructure();
-builder.Services.ConfigureHttpJsonOptions(json =>
-{
-    json.SerializerOptions.PropertyNamingPolicy =
-        JsonNamingPolicy.CamelCase;
-    json.SerializerOptions.WriteIndented = true;
-    json.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-});
-
 
 var app = builder.Build();
 

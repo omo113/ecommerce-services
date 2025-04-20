@@ -13,7 +13,7 @@ public class CatalogWebAppFactory : WebApplicationFactory<Program>, IAsyncLifeti
 
     protected override void ConfigureWebHost(IWebHostBuilder host)
     {
-        host.UseSetting("Aspire:Npgsql:ConnectionString", _database?.ConnectionString);
+        host.UseSetting("Aspire:Npgsql:EntityFrameworkCore:PostgreSQL:ConnectionString", _database?.ConnectionString);
 
         base.ConfigureWebHost(host);
 
@@ -25,9 +25,15 @@ public class CatalogWebAppFactory : WebApplicationFactory<Program>, IAsyncLifeti
 
     private void ConfigureServices(IServiceCollection services)
     {
-        var descriptor = services.First(x => x.ImplementationType
-            .IsAssignableTo(typeof(IMigrationService)));
+        var descriptor = services.First(x => x.ImplementationType != null
+            && x.ImplementationType.IsAssignableTo(typeof(IMigrationService)));
         services.Remove(descriptor);
+        // Remove the hosted service that runs migrations automatically
+        var hostedDescriptor = services.First(x => x.ImplementationType != null
+            && x.ImplementationType == typeof(MigrationHostedService));
+        services.Remove(hostedDescriptor);
+        // Register the concrete MigrationService so we can invoke it manually
+        services.AddScoped<MigrationService>();
     }
 
     public async Task InitializeAsync()

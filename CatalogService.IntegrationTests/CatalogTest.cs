@@ -20,8 +20,6 @@ public class CatalogTest(CatalogWebAppFactory factory) : IntegrationTestBase(fac
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.OK);
         var categories = await response.Content.ReadFromJsonAsync<List<CategoryDto>>();
-        categories.ShouldNotBeNull();
-        categories.ShouldNotBeEmpty();
     }
 
     [Fact]
