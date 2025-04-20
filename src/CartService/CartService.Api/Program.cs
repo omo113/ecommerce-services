@@ -1,4 +1,5 @@
 using CartService.Api.Endpoints;
+using CartService.Api.Extensions;
 using CartService.Application;
 using CartService.Infrastructure;
 using Scalar.AspNetCore;
@@ -7,6 +8,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddErrorHandlingWithRules();
 builder.Services.AddApplication();
 builder.AddMongoClient();
 builder.Services.AddInfrastructure(builder.Configuration);

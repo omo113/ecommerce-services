@@ -22,7 +22,7 @@ var cartApi = builder
 
 var catalogApi = builder
     .AddProject<Projects.CatalogService_Api>("api-catalog")
-    .WithReference(cartsDb)
+    .WithReference(catalogDb)
     .WithReplicas(1);
 
 

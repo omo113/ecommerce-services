@@ -1,3 +1,4 @@
+using CatalogService.Api.Extensions;
 using CatalogService.Application;
 using CatalogService.Infrastructure;
 using CatalogService.Infrastructure.Services;
@@ -7,6 +8,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddErrorHandlingWithRules();
 builder.Services.AddHostedService<MigrationService>();
 builder.Services.AddControllers();
 
@@ -24,6 +26,7 @@ builder.Services.ConfigureHttpJsonOptions(json =>
 
 
 var app = builder.Build();
+
 
 if (builder.Environment.IsDevelopment())
 {
