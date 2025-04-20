@@ -12,6 +12,11 @@ public class Category : Entity
     public Category? ParentCategory { get; private set; }
     public ICollection<Category> SubCategories { get; set; } = new List<Category>();
     public ICollection<Product> Products { get; set; } = new List<Product>();
+
+    private Category()
+    {
+
+    }
     private Category(string name, Image? image, int? parentCategoryId)
     {
         Name = name;

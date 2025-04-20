@@ -6,13 +6,12 @@ using MediatR;
 
 namespace CatalogService.Application.Commands.CategoryCommands;
 
-public record UpdateCategoryCommand : IRequest<bool> // Returns true if successful, false otherwise (or void/Unit)
+public record UpdateCategoryCommand : IRequest<bool>
 {
-    public int Id { get; set; } // ID of the category to update
+    public int Id { get; set; }
     public string Name { get; set; }
     public ImageDto? Image { get; set; }
     public int? ParentCategoryId { get; set; }
-    // Note: Be careful about allowing ParentCategoryId changes to avoid circular references or orphaning.
 }
 public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCommand>
 {

@@ -16,12 +16,12 @@ var catalogDb = builder
     .AddDatabase("catalog-db");
 
 var cartApi = builder
-    .AddProject<Projects.CartService_Api>("api")
+    .AddProject<Projects.CartService_Api>("api-cart")
     .WithReference(cartsDb)
     .WithReplicas(1);
 
 var catalogApi = builder
-    .AddProject<Projects.CatalogService_Api>("api")
+    .AddProject<Projects.CatalogService_Api>("api-catalog")
     .WithReference(cartsDb)
     .WithReplicas(1);
 

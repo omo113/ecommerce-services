@@ -1,14 +1,18 @@
+using CatalogService.Application;
 using CatalogService.Infrastructure;
+using CatalogService.Infrastructure.Services;
 using Scalar.AspNetCore;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+builder.Services.AddHostedService<MigrationService>();
 builder.Services.AddControllers();
+
 builder.Services.AddOpenApi();
-builder.Services.AddPostgres(builder.Configuration);
+builder.Services.AddApplication();
+builder.AddPostgres();
 builder.Services.AddInfrastructure();
 builder.Services.ConfigureHttpJsonOptions(json =>
 {

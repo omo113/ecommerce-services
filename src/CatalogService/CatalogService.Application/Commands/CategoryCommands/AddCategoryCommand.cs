@@ -8,7 +8,7 @@ using MediatR;
 namespace CatalogService.Application.Commands.CategoryCommands;
 
 
-public class AddCategoryCommand : IRequest<CategoryDto> // Returns the newly created category DTO
+public class AddCategoryCommand : IRequest<CategoryDto>
 {
     public string Name { get; set; }
     public ImageDto? Image { get; set; }

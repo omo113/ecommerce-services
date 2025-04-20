@@ -1,19 +1,19 @@
 ﻿using CatalogService.Domain.Repositories;
 using CatalogService.Infrastructure.Persistance;
 using CatalogService.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace CatalogService.Infrastructure;
 
 public static class DIExtension
 {
-    public static IServiceCollection AddPostgres(this IServiceCollection services, IConfiguration configuration)
+    public static IHostApplicationBuilder AddPostgres(this IHostApplicationBuilder builder)
     {
-        services.AddDbContextPool<CatalogDbContext>(options => options.UseNpgsql(
-            configuration.GetConnectionString("catalog-db")));
-        return services;
+        //services.AddDbContextPool<CatalogDbContext>(options => options.UseNpgsql(
+        //    configuration.GetConnectionString("catalog-db")));
+        builder.AddNpgsqlDbContext<CatalogDbContext>("catalog-db");
+        return builder;
 
     }
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
