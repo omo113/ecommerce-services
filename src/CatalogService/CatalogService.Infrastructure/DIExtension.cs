@@ -1,6 +1,7 @@
 ﻿using CatalogService.Domain.Repositories;
 using CatalogService.Infrastructure.Persistance;
 using CatalogService.Infrastructure.Repositories;
+using CatalogService.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -18,6 +19,8 @@ public static class DIExtension
     }
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
+        services.AddScoped<IMigrationService, MigrationService>();
+        services.AddHostedService<MigrationHostedService>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<IProductRepository, ProductRepository>();
         return services;

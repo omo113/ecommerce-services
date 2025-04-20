@@ -2,49 +2,24 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace CatalogService.Infrastructure.Services;
 
-public class MigrationService(IServiceScopeFactory scopeFactory, ILogger<MigrationService> logger) : IHostedService
+public interface IMigrationService
 {
-    public async Task StartAsync(CancellationToken cancellationToken)
+    Task RunMigration(CancellationToken cancellationToken);
+}
+public class MigrationService(CatalogDbContext dbContext) : IMigrationService
+{
+    public async Task RunMigration(CancellationToken cancellationToken)
     {
-        await ExecuteAsync(cancellationToken);
-    }
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        return Task.CompletedTask;
-    }
-    private async Task ExecuteAsync(CancellationToken stoppingToken)
-    {
-        try
-        {
-            await RunMigration(stoppingToken);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, "");
-        }
-    }
-
-    private async Task RunMigration(CancellationToken cancellationToken)
-    {
-        using var scope = scopeFactory.CreateScope();
-        await MigrateCatalogDatabase(scope, cancellationToken);
+        await MigrateCatalogDatabase(cancellationToken);
     }
 
     private async Task MigrateCatalogDatabase(
-        IServiceScope scope,
         CancellationToken stoppingToken
     )
     {
-        var dbContext =
-            scope.ServiceProvider.GetRequiredService<CatalogDbContext>();
-
         await EnsureDatabaseAsync(dbContext, stoppingToken);
         await RunMigrationAsync(dbContext, stoppingToken);
     }
