@@ -21,18 +21,10 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
 {
     public UpdateProductCommandValidator()
     {
-        RuleFor(x => x.Id).GreaterThan(0);
         RuleFor(x => x.Name).NotEmpty().MaximumLength(50);
-        RuleFor(x => x.Description).MaximumLength(1000);
         RuleFor(x => x.Image)
             .Must(url => Uri.IsWellFormedUriString(url, UriKind.Absolute))
             .When(x => !string.IsNullOrEmpty(x.Image));
-        RuleFor(x => x.CategoryId).GreaterThan(0);
-        RuleFor(x => x.Price.Amount)
-            .GreaterThan(0);
-        RuleFor(x => x.Price.Currency)
-            .IsInEnum();
-        RuleFor(x => x.Amount).GreaterThanOrEqualTo(0);
     }
 }
 
