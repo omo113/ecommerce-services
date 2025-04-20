@@ -1,5 +1,6 @@
 ﻿using CartService.Api.Extensions;
 using CartService.Application.Commands.CartCommands;
+using CartService.Application.Queries.CartQueries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +32,10 @@ public static class CartEndpoints
         return app;
     }
 
-    public static async Task<IResult> GetCarts() => Results.Ok();
+    public static async Task<IResult> GetCarts(
+        [FromServices] IMediator mediator,
+        CancellationToken cancellationToken) =>
+        (await mediator.Send(new CartsQuery(), cancellationToken)).ToApiResult();
 
     public static async Task<IResult> AddItem(
         [FromBody] CreateCartCommand command,
@@ -39,7 +43,11 @@ public static class CartEndpoints
         CancellationToken cancellationToken) =>
        (await mediator.Send(command, cancellationToken)).ToApiResult();
 
-    public static async Task<IResult> RemoveItem() => Results.Ok();
+    public static async Task<IResult> RemoveItem(
+        [FromQuery(Name = "id")] string id,
+        [FromServices] IMediator mediator,
+        CancellationToken cancellationToken) =>
+        (await mediator.Send(new DeleteCartCommand(id), cancellationToken)).ToApiResult();
 }
 
 

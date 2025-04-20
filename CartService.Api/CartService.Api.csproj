@@ -9,11 +9,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.1.16" />
-    <PackageReference Include="Aspire.MongoDB.Driver" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\src\CartService\CartService.Application\CartService.Application.csproj" />
+    <ProjectReference Include="..\src\CartService\CartService.Infrastructure\CartService.Infrastructure.csproj" />
     <PackageReference Include="NET.DotnetErrorHandling" Version="1.0.14" />
 
 

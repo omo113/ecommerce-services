@@ -1,4 +1,4 @@
-﻿using CartService.Domain.Aggregates;
+﻿using CatalogService.Domain.ValueObjects;
 
 namespace CartService.Application.Dtos;
 
