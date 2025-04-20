@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EcommerceServices.Shared\EcommerceServices.Shared.csproj" />
+    <Folder Include="Models\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EcommerceServices.Shared\EcommerceServices.Shared.csproj" />
   </ItemGroup>
 
 </Project>

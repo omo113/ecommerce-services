@@ -12,11 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\CartService\CartService.Application\CartService.Application.csproj" />
-    <ProjectReference Include="..\src\CartService\CartService.Infrastructure\CartService.Infrastructure.csproj" />
     <PackageReference Include="NET.DotnetErrorHandling" Version="1.0.14" />
 
 
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EcommerceServices.Shared\EcommerceServices.Shared.csproj" />
+    <ProjectReference Include="..\CartService.Application\CartService.Application.csproj" />
+    <ProjectReference Include="..\CartService.Infrastructure\CartService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
