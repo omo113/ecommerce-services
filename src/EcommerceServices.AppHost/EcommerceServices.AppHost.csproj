@@ -19,7 +19,7 @@
 	  <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CartService.Api\CartService.Api.csproj" />
-    <ProjectReference Include="..\..\CatalogService.Api\CatalogService.Api.csproj" />
+    <ProjectReference Include="..\CartService\CartService.Api\CartService.Api.csproj" />
+    <ProjectReference Include="..\CatalogService\CatalogService.Api\CatalogService.Api.csproj" />
   </ItemGroup>
 </Project>
