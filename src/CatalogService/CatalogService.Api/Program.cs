@@ -1,9 +1,9 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using CatalogService.Api.Extensions;
 using CatalogService.Application;
 using CatalogService.Infrastructure;
 using Scalar.AspNetCore;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,4 +41,7 @@ app.MapControllers();
 app.Run();
 
 
-public partial class Program;
+namespace CatalogService.Api
+{
+    public partial class Program;
+}

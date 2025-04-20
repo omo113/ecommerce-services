@@ -18,7 +18,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\src\CartService\CartService.Api\CartService.Api.csproj" />
+	  <ProjectReference Include="..\..\..\src\CartService\CartService.Api\CartService.Api.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

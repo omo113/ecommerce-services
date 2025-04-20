@@ -1,3 +1,4 @@
+using CatalogService.Api;
 using CatalogService.Infrastructure.Services;
 using CatalogService.Integration.Tests.Fixtures;
 using Microsoft.AspNetCore.Hosting;

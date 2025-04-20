@@ -2,7 +2,7 @@ using FluentValidation;
 using NET.DotnetErrorHandling.ProblemDetails;
 using NET.DotnetErrorHandling.ProblemDetails.Interfaces;
 
-namespace CartService.Api.Exceptions;
+namespace CatalogService.Api.Exceptions;
 
 public class FluentValidationErrorHandlingRule : CommonErrorHandlingRule, IErrorHandlingRule
 {

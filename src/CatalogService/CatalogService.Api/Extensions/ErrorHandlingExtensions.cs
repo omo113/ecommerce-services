@@ -1,4 +1,4 @@
-﻿using CartService.Api.Exceptions;
+﻿using CatalogService.Api.Exceptions;
 using NET.DotnetErrorHandling.Middlewares;
 
 namespace CatalogService.Api.Extensions;
