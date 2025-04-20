@@ -18,6 +18,8 @@ public class AddCategoryCommandValidator : AbstractValidator<AddCategoryCommand>
 {
     public AddCategoryCommandValidator()
     {
+        RuleFor(x => x.Name.Length)
+            .LessThanOrEqualTo(50);
     }
 }
 public class AddCategoryCommandHandler(ICategoryRepository categoryRepository)

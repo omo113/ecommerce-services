@@ -17,6 +17,8 @@ public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCo
 {
     public UpdateCategoryCommandValidator()
     {
+        RuleFor(x => x.Name.Length)
+            .LessThanOrEqualTo(50);
     }
 }
 public class UpdateCategoryCommandHandler(ICategoryRepository categoryRepository)
