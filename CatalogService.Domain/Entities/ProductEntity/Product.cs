@@ -1,6 +1,6 @@
 ﻿using CatalogService.Domain.Entities.CategoryEntity;
-using CatalogService.Domain.ValueObjects;
 using EcommerceServices.Shared;
+using EcommerceServices.Shared.ValueObjects;
 
 namespace CatalogService.Domain.Entities.ProductEntity;
 

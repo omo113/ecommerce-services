@@ -1,8 +1,8 @@
 ﻿using CartService.Application.Dtos;
 using CartService.Domain.Entities.CartEntity;
-using CartService.Domain.Entities.CartEntity.ValueObjects;
 using CartService.Domain.Repositories;
 using EcommerceServices.Shared;
+using EcommerceServices.Shared.ValueObjects;
 using FluentValidation;
 using MediatR;
 using OneOf;
@@ -10,7 +10,7 @@ using OneOf;
 namespace CartService.Application.Commands.CartCommands;
 
 
-public record CreateCartCommand(Guid Id, string Name, ImageDto? Image, MoneyDto Price, int Quantity) : IRequest<OneOf<bool, Error>>;
+public record CreateCartCommand(string Name, ImageDto? Image, MoneyDto Price, int Quantity) : IRequest<OneOf<bool, Error>>;
 
 public class CreateCartCommandValidation : AbstractValidator<CreateCartCommand>
 {
@@ -18,11 +18,7 @@ public class CreateCartCommandValidation : AbstractValidator<CreateCartCommand>
     {
         RuleFor(x => x.Name)
             .NotEmpty();
-        RuleFor(x => x.Id)
-            .NotNull()
-            .NotEmpty()
-            .Must(x => Guid.Empty != x)
-            .WithMessage("Id cant be empty guid");
+
         RuleFor(x => x.Image)
             .NotNull();
         RuleFor(x => x.Price)
@@ -53,7 +49,6 @@ public class CreateCartCommandHandler(ICartRepository cartRepository) : IRequest
         var cart = new Cart
         {
             CreatedAt = TimeProvider.System.GetUtcNow(),
-            Id = request.Id.ToString(),
             Name = request.Name,
             Price = new Money
             {

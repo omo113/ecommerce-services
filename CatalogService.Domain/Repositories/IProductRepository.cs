@@ -1,5 +1,7 @@
-﻿namespace CatalogService.Domain.Repositories;
+﻿using CatalogService.Domain.Entities.ProductEntity;
 
-public interface IProductRepository
+namespace CatalogService.Domain.Repositories;
+
+public interface IProductRepository : IRepository<Product>
 {
 }

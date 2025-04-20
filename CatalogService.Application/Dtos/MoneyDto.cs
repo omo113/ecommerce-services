@@ -1,5 +1,5 @@
 ﻿using EcommerceServices.Shared;
 
-namespace CartService.Application.Dtos;
+namespace CatalogService.Application.Dtos;
 
 public record MoneyDto(decimal Amount, Currency Currency);

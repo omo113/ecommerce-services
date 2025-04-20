@@ -13,7 +13,7 @@ var catalogDb = builder
     .AddPostgres("dbserver", pAdmin, password)
     .WithDataVolume()
     .WithPgAdmin(c => c.WithHostPort(5050))
-    .AddDatabase("users-db");
+    .AddDatabase("catalog-db");
 
 var cartApi = builder
     .AddProject<Projects.CartService_Api>("api")

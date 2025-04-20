@@ -1,18 +1,33 @@
+using CatalogService.Infrastructure;
+using Scalar.AspNetCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddPostgres(builder.Configuration);
+builder.Services.AddInfrastructure();
+builder.Services.ConfigureHttpJsonOptions(json =>
+{
+    json.SerializerOptions.PropertyNamingPolicy =
+        JsonNamingPolicy.CamelCase;
+    json.SerializerOptions.WriteIndented = true;
+    json.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.MapGet("/", () => Results.Redirect("/scalar"))
+        .ExcludeFromDescription();
 }
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
 

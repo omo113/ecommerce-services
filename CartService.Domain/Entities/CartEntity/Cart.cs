@@ -1,4 +1,4 @@
-﻿using CartService.Domain.Entities.CartEntity.ValueObjects;
+﻿using EcommerceServices.Shared.ValueObjects;
 
 namespace CartService.Domain.Entities.CartEntity;
 

@@ -22,13 +22,14 @@ public static class CartMongoConfiguration
         if (!BsonClassMap.IsClassMapRegistered(typeof(Cart)))
         {
             BsonClassMap.RegisterClassMap<Cart>(cm =>
-            {
-                cm.AutoMap();
-                cm.SetIgnoreExtraElements(true);
+{
+    cm.AutoMap();
+    cm.SetIgnoreExtraElements(true);
 
-                cm.MapIdProperty(c => c.Id)
-                    .SetElementName("_id");
-            });
+    cm.MapIdProperty(c => c.Id)
+        .SetElementName("_id")
+        .SetIdGenerator(MongoDB.Bson.Serialization.IdGenerators.AscendingGuidGenerator.Instance);
+});
         }
     }
 }

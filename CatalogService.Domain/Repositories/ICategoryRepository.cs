@@ -1,5 +1,7 @@
-﻿namespace CatalogService.Domain.Repositories;
+﻿using CatalogService.Domain.Entities.CategoryEntity;
 
-public interface ICategoryRepository
+namespace CatalogService.Domain.Repositories;
+
+public interface ICategoryRepository : IRepository<Category>
 {
 }

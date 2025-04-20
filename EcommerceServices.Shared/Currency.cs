@@ -1,4 +1,4 @@
-﻿namespace CatalogService.Domain.ValueObjects;
+﻿namespace EcommerceServices.Shared;
 
 public enum Currency
 {
