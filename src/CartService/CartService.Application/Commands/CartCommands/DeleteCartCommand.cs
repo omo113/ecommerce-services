@@ -6,18 +6,19 @@ using OneOf;
 
 namespace CartService.Application.Commands.CartCommands;
 
-public record DeleteCartCommand(string Id) : IRequest<OneOf<bool, Error>>;
+public record DeleteCartCommand(string CartId, string ItemId) : IRequest<OneOf<bool, Error>>;
 
-public class DeleteCartCommandValidator(ICartRepository cartRepository)
+public class DeleteCartCommandHandler(ICartRepository cartRepository)
     : IRequestHandler<DeleteCartCommand, OneOf<bool, Error>>
 {
-
     public async Task<OneOf<bool, Error>> Handle(DeleteCartCommand request, CancellationToken cancellationToken)
     {
-        var cart = await cartRepository.GetCartById(request.Id, cancellationToken);
+        var cart = await cartRepository.GetCartById(request.CartId, cancellationToken);
         if (cart is null)
             return CartErrors.CartNotExist;
-        var res = await cartRepository.DeleteCartItem(cart, cancellationToken);
-        return res ? res : new Error("CartAggregate", "Failed To Delete");
+        if (!cart.RemoveItem(request.ItemId))
+            return new Error("CartAggregate", "Item not found in cart");
+        await cartRepository.UpdateCartAsync(cart, cancellationToken);
+        return true;
     }
 }

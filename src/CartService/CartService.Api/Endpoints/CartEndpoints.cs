@@ -10,6 +10,7 @@ public static class CartEndpoints
 {
     private const string BasePath = "/v1/cart/";
     private const string Tags = "Cart";
+    private const string BasePathV2 = "/v2/cart/";
 
     public static IEndpointRouteBuilder MapCartServiceEndpoints(this IEndpointRouteBuilder app)
     {
@@ -19,13 +20,18 @@ public static class CartEndpoints
             .WithTags(Tags)
             .WithOpenApi();
 
+        cart.MapGet("{id}", GetCartById)
+            .WithName("GetCartById")
+            .WithTags(Tags)
+            .WithOpenApi();
+
         cart.MapPost("", AddItem)
             .WithName("AddItemToCart")
             .WithTags(Tags)
             .WithOpenApi();
 
-        cart.MapDelete("", RemoveItem)
-            .WithName("DeleteItemFromCart")
+        cart.MapDelete("{id}/items/{itemId}", RemoveCartItem)
+            .WithName("DeleteCartItem")
             .WithTags(Tags)
             .WithOpenApi();
 
@@ -37,17 +43,24 @@ public static class CartEndpoints
         CancellationToken cancellationToken) =>
         (await mediator.Send(new CartsQuery(), cancellationToken)).ToApiResult();
 
+    public static async Task<IResult> GetCartById(
+        [FromRoute(Name = "id")] string id,
+        [FromServices] IMediator mediator,
+        CancellationToken cancellationToken) =>
+        (await mediator.Send(new GetCartQuery(id), cancellationToken)).ToApiResult();
+
     public static async Task<IResult> AddItem(
         [FromBody] CreateCartCommand command,
         [FromServices] IMediator mediator,
         CancellationToken cancellationToken) =>
        (await mediator.Send(command, cancellationToken)).ToApiResult();
 
-    public static async Task<IResult> RemoveItem(
-        [FromQuery(Name = "id")] string id,
+    public static async Task<IResult> RemoveCartItem(
+        [FromRoute(Name = "id")] string id,
+        [FromRoute(Name = "itemId")] string itemId,
         [FromServices] IMediator mediator,
         CancellationToken cancellationToken) =>
-        (await mediator.Send(new DeleteCartCommand(id), cancellationToken)).ToApiResult();
+        (await mediator.Send(new DeleteCartCommand(id, itemId), cancellationToken)).ToApiResult();
 }
 
 

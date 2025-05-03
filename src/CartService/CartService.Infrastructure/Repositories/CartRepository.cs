@@ -51,6 +51,13 @@ public class CartRepository : ICartRepository
             new InsertOneOptions(),
             cancellationToken
         );
+
+    public async Task UpdateCartAsync(Cart cart, CancellationToken cancellationToken)
+    {
+        var filter = Builders<Cart>.Filter.Eq(x => x.Id, cart.Id);
+        await _collection.ReplaceOneAsync(filter, cart, new ReplaceOptions { IsUpsert = true }, cancellationToken);
+    }
+
     public async Task<bool> IdExists(string id, CancellationToken cancellationToken)
     {
         var filter = Builders<Cart>.Filter.Eq(x => x.Id, id);

@@ -41,32 +41,30 @@ public class CreateCartCommandHandler(ICartRepository cartRepository) : IRequest
 {
     public async Task<OneOf<bool, Error>> Handle(CreateCartCommand request, CancellationToken cancellationToken)
     {
-        if (await cartRepository.IdExists(request.Id, cancellationToken))
+        var existing = await cartRepository.GetCartById(request.Id, cancellationToken);
+        var item = new CartItem
         {
-            return new Error("CartAlreadyExists", "Cart with this ID already exists");
-        }
-
-        var cart = new Cart
-        {
-            Id = request.Id,
-            CreatedAt = TimeProvider.System.GetUtcNow(),
+            ItemId = Guid.NewGuid().ToString(),
             Name = request.Name,
-            Price = new Money
-            {
-                Amount = request.Price.Amount,
-                Currency = request.Price.Currency,
-            },
+            Image = request.Image != null ? new Image { Url = request.Image.Url, Alt = request.Image.Alt } : null,
+            Price = new Money { Amount = request.Price.Amount, Currency = request.Price.Currency },
             Quantity = request.Quantity
         };
-        if (request.Image != null)
+        if (existing is null)
         {
-            cart.Image = new Image
+            var cart = new Cart
             {
-                Url = request.Image.Url,
-                Alt = request.Image.Alt
+                Id = request.Id,
+                CreatedAt = TimeProvider.System.GetUtcNow()
             };
+            cart.AddItem(item);
+            await cartRepository.CreateCartAsync(cart, cancellationToken);
         }
-        await cartRepository.CreateCartAsync(cart, cancellationToken);
+        else
+        {
+            existing.AddItem(item);
+            await cartRepository.UpdateCartAsync(existing, cancellationToken);
+        }
         return true;
     }
 }

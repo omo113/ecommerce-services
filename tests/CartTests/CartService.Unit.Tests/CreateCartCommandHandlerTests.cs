@@ -31,11 +31,13 @@ namespace CartService.Unit.Tests
             // Assert
             result.IsT0.Should().BeTrue();
             repositoryMock.Verify(r => r.CreateCartAsync(
-                It.Is<Cart>(c => c.Name == "cart1" &&
-                                 c.Price.Amount == 100m &&
-                                 c.Price.Currency == Currency.USD &&
-                                 c.Quantity == 2),
-                It.IsAny<CancellationToken>()), Times.Once);
+               It.Is<Cart>(c => c.Id == "cart1" &&
+                                c.Items.Count == 1 &&
+                                c.Items[0].Name == "cart1" &&
+                                c.Items[0].Price.Amount == 100m &&
+                                c.Items[0].Price.Currency == Currency.USD &&
+                                c.Items[0].Quantity == 2),
+               It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]

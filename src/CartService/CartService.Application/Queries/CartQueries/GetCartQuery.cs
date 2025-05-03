@@ -1,4 +1,5 @@
-﻿using CartService.Application.Dtos;
+using CartService.Application.Dtos;
+using CartService.Application.Errors;
 using CartService.Domain.Repositories;
 using EcommerceServices.Shared;
 using MediatR;
@@ -7,15 +8,19 @@ using System.Linq;
 
 namespace CartService.Application.Queries.CartQueries;
 
-public record CartsQuery : IRequest<OneOf<List<CartDto>, Error>>;
+public record GetCartQuery(string Id) : IRequest<OneOf<CartDto, Error>>;
 
-
-public class CartsQueryHandler(ICartRepository cartRepository) : IRequestHandler<CartsQuery, OneOf<List<CartDto>, Error>>
+public class GetCartQueryHandler(ICartRepository cartRepository)
+    : IRequestHandler<GetCartQuery, OneOf<CartDto, Error>>
 {
-    public async Task<OneOf<List<CartDto>, Error>> Handle(CartsQuery request, CancellationToken cancellationToken)
+    public async Task<OneOf<CartDto, Error>> Handle(
+        GetCartQuery request,
+        CancellationToken cancellationToken)
     {
-        var res = await cartRepository.GetAll(cancellationToken);
-        return res.ConvertAll(cart => new CartDto
+        var cart = await cartRepository.GetCartById(request.Id, cancellationToken);
+        if (cart is null)
+            return CartErrors.CartNotExist;
+        return new CartDto
         {
             Id = cart.Id,
             Items = cart.Items.Select(item => new CartItemDto
@@ -27,6 +32,6 @@ public class CartsQueryHandler(ICartRepository cartRepository) : IRequestHandler
                 Price = new MoneyDto(item.Price.Amount, item.Price.Currency),
                 Quantity = item.Quantity
             }).ToList()
-        });
+        };
     }
 }

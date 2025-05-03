@@ -16,8 +16,8 @@ namespace CartService.Unit.Tests
             var repositoryMock = new Mock<ICartRepository>();
             repositoryMock.Setup(r => r.GetCartById("id1", It.IsAny<CancellationToken>()))
                           .ReturnsAsync((Cart?)null);
-            var handler = new DeleteCartCommandValidator(repositoryMock.Object);
-            var command = new DeleteCartCommand("id1");
+            var handler = new DeleteCartCommandHandler(repositoryMock.Object);
+            var command = new DeleteCartCommand("id1", "item1");
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -26,42 +26,40 @@ namespace CartService.Unit.Tests
             result.IsT1.Should().BeTrue();
             var error = result.AsT1;
             error.Should().BeEquivalentTo(CartErrors.CartNotExist);
-            repositoryMock.Verify(r => r.DeleteCartItem(It.IsAny<Cart>(), It.IsAny<CancellationToken>()), Times.Never);
+            repositoryMock.Verify(r => r.UpdateCartAsync(It.IsAny<Cart>(), It.IsAny<CancellationToken>()), Times.Never);
         }
 
         [Fact]
         public async Task Handle_ShouldReturnTrue_WhenDeleteSucceeds()
         {
             // Arrange
-            var existingCart = new Cart { Name = "id2" };
+            var existingCart = new Cart { Id = "id2", Items = new List<CartItem> { new CartItem { ItemId = "item1" } } };
             var repositoryMock = new Mock<ICartRepository>();
             repositoryMock.Setup(r => r.GetCartById("id2", It.IsAny<CancellationToken>()))
                           .ReturnsAsync(existingCart);
-            repositoryMock.Setup(r => r.DeleteCartItem(existingCart, It.IsAny<CancellationToken>()))
-                          .ReturnsAsync(true);
-            var handler = new DeleteCartCommandValidator(repositoryMock.Object);
-            var command = new DeleteCartCommand("id2");
+            repositoryMock.Setup(r => r.UpdateCartAsync(existingCart, It.IsAny<CancellationToken>()))
+                          .Returns(Task.CompletedTask);
+            var handler = new DeleteCartCommandHandler(repositoryMock.Object);
+            var command = new DeleteCartCommand("id2", "item1");
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
 
             // Assert
             result.IsT0.Should().BeTrue();
-            repositoryMock.Verify(r => r.DeleteCartItem(existingCart, It.IsAny<CancellationToken>()), Times.Once);
+            repositoryMock.Verify(r => r.UpdateCartAsync(existingCart, It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact]
         public async Task Handle_ShouldReturnError_WhenDeleteFails()
         {
             // Arrange
-            var existingCart = new Cart { Name = "id3" };
+            var existingCart = new Cart { Id = "id3", Items = new List<CartItem>() };
             var repositoryMock = new Mock<ICartRepository>();
             repositoryMock.Setup(r => r.GetCartById("id3", It.IsAny<CancellationToken>()))
                           .ReturnsAsync(existingCart);
-            repositoryMock.Setup(r => r.DeleteCartItem(existingCart, It.IsAny<CancellationToken>()))
-                          .ReturnsAsync(false);
-            var handler = new DeleteCartCommandValidator(repositoryMock.Object);
-            var command = new DeleteCartCommand("id3");
+            var handler = new DeleteCartCommandHandler(repositoryMock.Object);
+            var command = new DeleteCartCommand("id3", "item1");
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -70,8 +68,8 @@ namespace CartService.Unit.Tests
             result.IsT1.Should().BeTrue();
             var error = result.AsT1;
             error.ErrorCode.Should().Be("CartAggregate");
-            error.Description.Should().Contain("Failed To Delete");
-            repositoryMock.Verify(r => r.DeleteCartItem(existingCart, It.IsAny<CancellationToken>()), Times.Once);
+            error.Description.Should().Contain("Item not found in cart");
+            repositoryMock.Verify(r => r.UpdateCartAsync(existingCart, It.IsAny<CancellationToken>()), Times.Never);
         }
     }
 }
