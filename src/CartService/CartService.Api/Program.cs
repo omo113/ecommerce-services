@@ -37,6 +37,7 @@ app.MapOpenApi();
 app.MapScalarApiReference();
 
 app.MapCartServiceEndpoints();
+app.MapCartServiceV2Endpoints();
 
 app.UseHttpsRedirection();
 

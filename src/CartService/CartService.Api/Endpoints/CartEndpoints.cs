@@ -14,48 +14,93 @@ public static class CartEndpoints
 
     public static IEndpointRouteBuilder MapCartServiceEndpoints(this IEndpointRouteBuilder app)
     {
-        var cart = app.MapGroup(BasePath);
+        var cart = app.MapGroup(BasePath)
+            .WithOpenApi(o =>
+            {
+                o.Summary = "Cart API v1";
+                return o;
+            });
         cart.MapGet("", GetCarts)
             .WithName("Getcartinfo")
             .WithTags(Tags)
-            .WithOpenApi();
+            .WithOpenApi(o =>
+            {
+                o.Summary = "Version 1: Get all carts";
+                o.Description = "Retrieves all carts, each with its items list.";
+                return o;
+            });
 
         cart.MapGet("{id}", GetCartById)
             .WithName("GetCartById")
             .WithTags(Tags)
-            .WithOpenApi();
+            .WithOpenApi(o =>
+            {
+                o.Summary = "Version 1: Get cart by ID";
+                o.Description = "Retrieves the cart model (ID + items) for the specified cart ID.";
+                return o;
+
+            });
 
         cart.MapPost("", AddItem)
             .WithName("AddItemToCart")
             .WithTags(Tags)
-            .WithOpenApi();
+            .WithOpenApi(o =>
+            {
+                o.Summary = "Version 1: Add item to cart";
+                o.Description = "Adds an item to the specified cart (creates cart if not exists).";
+                return o;
+            });
 
         cart.MapDelete("{id}/items/{itemId}", RemoveCartItem)
             .WithName("DeleteCartItem")
             .WithTags(Tags)
-            .WithOpenApi();
+            .WithOpenApi(o =>
+            {
+                o.Summary = "Version 1: Delete item from cart";
+                o.Description = "Removes a single item from the specified cart.";
+                return o;
+            });
 
         return app;
     }
 
-    // Version 2: return list of cart items only
     public static IEndpointRouteBuilder MapCartServiceV2Endpoints(this IEndpointRouteBuilder app)
     {
-        var cart2 = app.MapGroup("/v2/cart/");
+        var cart2 = app.MapGroup(BasePathV2)
+            .WithOpenApi(o =>
+            {
+                o.Summary = "Cart API v2";
+                return o;
+            });
         cart2.MapGet("{id}", GetCartItemsV2)
             .WithName("GetCartItemsV2")
             .WithTags(Tags)
-            .WithOpenApi();
+            .WithOpenApi(o =>
+            {
+                o.Summary = "Version 2: Get cart items";
+                o.Description = "Retrieves only the list of cart items for the specified cart ID.";
+                return o;
+            });
 
         cart2.MapPost("", AddItem)
             .WithName("AddItemToCartV2")
             .WithTags(Tags)
-            .WithOpenApi();
+            .WithOpenApi(o =>
+            {
+                o.Summary = "Version 2: Add item to cart";
+                o.Description = "Adds an item to the specified cart (cart created if not exists).";
+                return o;
+            });
 
         cart2.MapDelete("{id}/items/{itemId}", RemoveCartItem)
             .WithName("DeleteCartItemV2")
             .WithTags(Tags)
-            .WithOpenApi();
+            .WithOpenApi(o =>
+            {
+                o.Summary = "Version 2: Delete item from cart";
+                o.Description = "Removes a single item from the specified cart.";
+                return o;
+            });
 
         return app;
     }
