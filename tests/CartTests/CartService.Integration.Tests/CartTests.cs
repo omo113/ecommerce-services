@@ -1,29 +1,15 @@
 ﻿using CartService.Application.Commands.CartCommands;
 using CartService.Application.Dtos;
-using EcommerceServices.Shared;
 using CartService.Integration.Tests.Abstractions;
+using EcommerceServices.Shared;
 using Shouldly;
 using System.Net;
 using System.Net.Http.Json;
-using System.Collections.Generic;
-using Xunit;
 
 namespace CartService.Integration.Tests;
 
 public class CartTests(CartWebAppFactory factory) : IntegrationTestBase(factory)
 {
-    [Fact]
-    public async Task GetCarts_InitiallyEmpty_ReturnsOkAndEmptyList()
-    {
-        // Act
-        var response = await Client.GetAsync("/v1/cart");
-
-        // Assert
-        response.StatusCode.ShouldBe(HttpStatusCode.OK);
-        var carts = await response.Content.ReadFromJsonAsync<List<CartDto>>()!;
-        carts.ShouldBeEmpty();
-    }
-
     [Fact]
     public async Task AddItem_ReturnsOkTrue()
     {

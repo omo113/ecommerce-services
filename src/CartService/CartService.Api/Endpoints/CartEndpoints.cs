@@ -15,17 +15,17 @@ public static class CartEndpoints
     {
         var cart = app.MapGroup(BasePath);
         cart.MapGet("", GetCarts)
-            .WithName("GetCarts")
+            .WithName("Getcartinfo")
             .WithTags(Tags)
             .WithOpenApi();
 
         cart.MapPost("", AddItem)
-            .WithName("AddItem")
+            .WithName("AddItemToCart")
             .WithTags(Tags)
             .WithOpenApi();
 
         cart.MapDelete("", RemoveItem)
-            .WithName("RemoveItem")
+            .WithName("DeleteItemFromCart")
             .WithTags(Tags)
             .WithOpenApi();
 

@@ -23,6 +23,7 @@ builder.Services.ConfigureHttpJsonOptions(json =>
     json.SerializerOptions.WriteIndented = true;
     json.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
+builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
