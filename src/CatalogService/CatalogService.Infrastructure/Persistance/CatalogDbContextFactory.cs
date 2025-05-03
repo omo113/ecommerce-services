@@ -1,4 +1,7 @@
-namespace CatalogService.Infrastructure.Persistance;
+//using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore.Design;
+
+//namespace CatalogService.Infrastructure.Persistance;
 
 //public class CatalogDbContextFactory : IDesignTimeDbContextFactory<CatalogDbContext>
 //{

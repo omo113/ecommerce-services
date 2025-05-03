@@ -10,7 +10,7 @@ using OneOf;
 namespace CartService.Application.Commands.CartCommands;
 
 
-public record CreateCartCommand(string Name, ImageDto? Image, MoneyDto Price, int Quantity) : IRequest<OneOf<bool, Error>>;
+public record CreateCartCommand(string Id, string Name, ImageDto? Image, MoneyDto Price, int Quantity) : IRequest<OneOf<bool, Error>>;
 
 public class CreateCartCommandValidation : AbstractValidator<CreateCartCommand>
 {
@@ -41,13 +41,14 @@ public class CreateCartCommandHandler(ICartRepository cartRepository) : IRequest
 {
     public async Task<OneOf<bool, Error>> Handle(CreateCartCommand request, CancellationToken cancellationToken)
     {
-        if (await cartRepository.IdExists(request.Name, cancellationToken))
+        if (await cartRepository.IdExists(request.Id, cancellationToken))
         {
             return new Error("CartAlreadyExists", "Cart with this ID already exists");
         }
 
         var cart = new Cart
         {
+            Id = request.Id,
             CreatedAt = TimeProvider.System.GetUtcNow(),
             Name = request.Name,
             Price = new Money

@@ -1,10 +1,12 @@
+using CatalogService.Application.Commands.CategoryCommands;
+using CatalogService.Application.Dtos;
+using CatalogService.Application.Queries.CategoryQueries;
+using EcommerceServices.Shared.Hateoas;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using CatalogService.Application.Commands.CategoryCommands;
-using CatalogService.Application.Queries.CategoryQueries;
-using CatalogService.Application.Dtos;
 
 namespace CatalogService.Api.Controllers;
+
 
 [ApiController]
 [Route("api/[controller]")]
@@ -18,10 +20,21 @@ public class CategoriesController : ControllerBase
         await _mediator.Send(new GetAllCategoriesQuery());
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<CategoryDto>> GetById(int id)
+    public async Task<ActionResult<Resource<CategoryDto>>> GetById(int id)
     {
         var dto = await _mediator.Send(new GetCategoryByIdQuery(id));
-        return dto is not null ? Ok(dto) : NotFound();
+        if (dto is null) return NotFound();
+        var resource = new Resource<CategoryDto>(
+            dto,
+            new[]
+            {
+                new Link("self", Url.Action(nameof(GetById), new { id })!, "GET"),
+                new Link("update", Url.Action(nameof(Update), new { id })!, "PUT"),
+                new Link("delete", Url.Action(nameof(Delete), new { id })!, "DELETE"),
+                new Link("all", Url.Action(nameof(GetAll))!, "GET")
+            }
+        );
+        return Ok(resource);
     }
 
     [HttpPost]

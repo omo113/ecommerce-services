@@ -2,6 +2,7 @@ using CatalogService.Domain.Entities.ProductEntity;
 using CatalogService.Domain.Repositories;
 using CatalogService.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace CatalogService.Infrastructure.Repositories;
 
@@ -10,14 +11,16 @@ public class ProductRepository(CatalogDbContext dbContext) :
 {
     public override async Task<Product?> GetByIdAsync(int id)
     {
-        return await DbContext.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+        return await DbContext.Products.Include(p => p.Category).Include(x => x.Price).FirstOrDefaultAsync(p => p.Id == id);
     }
 
-    public override async Task<IEnumerable<Product>> ListAllAsync()
+    public override async Task<IEnumerable<Product>> ListAsync(Expression<Func<Product, bool>> predicate)
     {
         return await DbContext.Products
             .Include(p => p.Category)
             .Include(x => x.Price)
+            .Where(predicate)
             .ToListAsync();
     }
+
 }

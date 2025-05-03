@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Integration.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CatalogService.Unit.Tests", "tests\CatalogTests\CatalogService.Unit.Tests\CatalogService.Unit.Tests.csproj", "{ED2415FC-A1BB-1EDE-D784-D2C23B4BA330}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CartService.Integration.Tests", "tests\CartTests\CartService.Integration.Tests\CartService.Integration.Tests.csproj", "{13C8B7B7-CFA3-C9E3-7E4C-27F4BE11C709}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +98,10 @@ Global
 		{ED2415FC-A1BB-1EDE-D784-D2C23B4BA330}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED2415FC-A1BB-1EDE-D784-D2C23B4BA330}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED2415FC-A1BB-1EDE-D784-D2C23B4BA330}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C8B7B7-CFA3-C9E3-7E4C-27F4BE11C709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C8B7B7-CFA3-C9E3-7E4C-27F4BE11C709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C8B7B7-CFA3-C9E3-7E4C-27F4BE11C709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C8B7B7-CFA3-C9E3-7E4C-27F4BE11C709}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,6 +120,7 @@ Global
 		{91111D54-87B9-1B8E-71CD-D27200630FC6} = {6BA201CC-D029-4F1B-94CA-91D629D14170}
 		{79B98389-0350-8E05-8CE9-C269E7D33D01} = {842183A4-3717-4E93-949F-30F27646BF1F}
 		{ED2415FC-A1BB-1EDE-D784-D2C23B4BA330} = {842183A4-3717-4E93-949F-30F27646BF1F}
+		{13C8B7B7-CFA3-C9E3-7E4C-27F4BE11C709} = {6BA201CC-D029-4F1B-94CA-91D629D14170}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C73410C4-E40E-4CF3-B3AB-5BA6ED71E7D2}

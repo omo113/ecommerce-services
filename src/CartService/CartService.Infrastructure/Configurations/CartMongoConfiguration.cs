@@ -27,8 +27,7 @@ public static class CartMongoConfiguration
     cm.SetIgnoreExtraElements(true);
 
     cm.MapIdProperty(c => c.Id)
-        .SetElementName("_id")
-        .SetIdGenerator(MongoDB.Bson.Serialization.IdGenerators.AscendingGuidGenerator.Instance);
+        .SetElementName("_id");
 });
         }
     }

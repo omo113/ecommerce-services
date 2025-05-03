@@ -1,3 +1,4 @@
+using CartService.Api;
 using CartService.Api.Endpoints;
 using CartService.Api.Extensions;
 using CartService.Application;
@@ -22,6 +23,8 @@ builder.Services.ConfigureHttpJsonOptions(json =>
     json.SerializerOptions.WriteIndented = true;
     json.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 var app = builder.Build();
 
 if (builder.Environment.IsDevelopment())
@@ -36,8 +39,15 @@ app.MapCartServiceEndpoints();
 
 app.UseHttpsRedirection();
 
+app.UseExceptionHandler();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
+
+namespace CartService.Api
+{
+    public partial class Program;
+}

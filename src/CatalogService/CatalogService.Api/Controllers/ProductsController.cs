@@ -1,10 +1,12 @@
+using CatalogService.Application.Commands.ProductCommands;
+using CatalogService.Application.Dtos;
+using CatalogService.Application.Queries.ProductQueries;
+using EcommerceServices.Shared.Hateoas;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using CatalogService.Application.Commands.ProductCommands;
-using CatalogService.Application.Queries.ProductQueries;
-using CatalogService.Application.Dtos;
 
 namespace CatalogService.Api.Controllers;
+
 
 [ApiController]
 [Route("api/[controller]")]
@@ -14,14 +16,24 @@ public class ProductsController : ControllerBase
     public ProductsController(IMediator mediator) => _mediator = mediator;
 
     [HttpGet]
-    public async Task<IEnumerable<ProductDto>> GetAll() =>
-        await _mediator.Send(new GetAllProductsQuery());
+    public async Task<IEnumerable<ProductDto>> GetAll([FromQuery] GetAllProductsQueryModel query) =>
+        await _mediator.Send(new GetAllProductsQuery(query));
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDto>> GetById(int id)
+    public async Task<ActionResult<Resource<ProductDto>>> GetById(int id)
     {
         var dto = await _mediator.Send(new GetProductByIdQuery(id));
-        return dto is not null ? Ok(dto) : NotFound();
+        if (dto is null) return NotFound();
+        var resource = new Resource<ProductDto>(
+            dto,
+            [
+                new Link("self", Url.Action(nameof(GetById), new { id })!, "GET"),
+                new Link("update", Url.Action(nameof(Update), new { id })!, "PUT"),
+                new Link("delete", Url.Action(nameof(Delete), new { id })!, "DELETE"),
+                new Link("all", Url.Action(nameof(GetAll))!, "GET")
+            ]
+        );
+        return Ok(resource);
     }
 
     [HttpPost]

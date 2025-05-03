@@ -19,10 +19,11 @@ namespace CartService.Unit.Tests
                           .ReturnsAsync(false);
             var handler = new CreateCartCommandHandler(repositoryMock.Object);
             var command = new CreateCartCommand(
-                Name: "cart1",
-                Image: null,
-                Price: new MoneyDto(100m, Currency.USD),
-                Quantity: 2);
+                 "cart1",
+                 "cart1",
+                 null,
+                new MoneyDto(100m, Currency.USD),
+                 2);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);
@@ -46,10 +47,11 @@ namespace CartService.Unit.Tests
                           .ReturnsAsync(true);
             var handler = new CreateCartCommandHandler(repositoryMock.Object);
             var command = new CreateCartCommand(
-                Name: "cart1",
-                Image: null,
-                Price: new MoneyDto(50m, Currency.EUR),
-                Quantity: 1);
+                "cart1",
+                "cart1",
+                null,
+                new MoneyDto(50m, Currency.EUR),
+                1);
 
             // Act
             var result = await handler.Handle(command, CancellationToken.None);

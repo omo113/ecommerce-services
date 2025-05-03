@@ -29,11 +29,9 @@ public class CatalogWebAppFactory : WebApplicationFactory<Program>, IAsyncLifeti
         var descriptor = services.First(x => x.ImplementationType != null
             && x.ImplementationType.IsAssignableTo(typeof(IMigrationService)));
         services.Remove(descriptor);
-        // Remove the hosted service that runs migrations automatically
         var hostedDescriptor = services.First(x => x.ImplementationType != null
             && x.ImplementationType == typeof(MigrationHostedService));
         services.Remove(hostedDescriptor);
-        // Register the concrete MigrationService so we can invoke it manually
         services.AddScoped<MigrationService>();
     }
 

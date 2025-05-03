@@ -1,9 +1,10 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using CatalogService.Api;
 using CatalogService.Api.Extensions;
 using CatalogService.Application;
 using CatalogService.Infrastructure;
 using Scalar.AspNetCore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,8 @@ builder.Services.AddOpenApi();
 builder.Services.AddApplication();
 builder.AddPostgres();
 builder.Services.AddInfrastructure();
+builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
@@ -33,6 +36,8 @@ app.MapOpenApi();
 app.MapScalarApiReference();
 
 app.UseHttpsRedirection();
+
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 
