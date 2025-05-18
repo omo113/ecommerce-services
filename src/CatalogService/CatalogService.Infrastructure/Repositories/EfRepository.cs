@@ -40,7 +40,7 @@ namespace CatalogService.Infrastructure.Repositories
 
         public virtual async Task UpdateAsync(T entity)
         {
-            DbContext.Entry(entity).State = EntityState.Modified;
+            DbContext.Update(entity);
             await DbContext.SaveChangesAsync();
         }
 

@@ -4,10 +4,10 @@ namespace CatalogService.Domain.Aggregates.ProductEntity.Events;
 
 public class ProductUpdatedEvent : DomainEvent
 {
-    public string Name { get; private set; }
-    public string Description { get; private set; }
-    public MoneyDto Price { get; private set; }
-    public int Amount { get; private set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public MoneyDto Price { get; set; }
+    public int Amount { get; set; }
 }
 
 public class MoneyDto

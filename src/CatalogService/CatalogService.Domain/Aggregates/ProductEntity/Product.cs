@@ -1,4 +1,5 @@
 ﻿using CatalogService.Domain.Aggregates.CategoryEntity;
+using CatalogService.Domain.Aggregates.ProductEntity.Events;
 using EcommerceServices.Shared;
 using EcommerceServices.Shared.ValueObjects;
 
@@ -43,5 +44,16 @@ public class Product : AggregateRoot
         CategoryId = categoryId;
         Image = image;
         LastChangeDate = TimeProvider.System.GetUtcNow();
+        Raise(new ProductUpdatedEvent
+        {
+            Price = new MoneyDto
+            {
+                Amount = price.Amount,
+                Currency = price.Currency
+            },
+            Amount = amount,
+            Description = description,
+            Name = name
+        });
     }
 }

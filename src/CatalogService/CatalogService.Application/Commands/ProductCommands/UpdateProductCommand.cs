@@ -44,6 +44,8 @@ public class UpdateProductCommandHandler(IProductRepository productRepository, I
             : null;
 
         product.Update(request.Name, request.Description ?? string.Empty, Money.Create(request.Price.Amount, request.Price.Currency), request.Amount, request.CategoryId, imageVo);
+
+
         await productRepository.UpdateAsync(product);
 
         return true;
