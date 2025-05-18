@@ -1,5 +1,6 @@
 using CatalogService.Application.Dtos;
 using CatalogService.Domain.Repositories;
+using CatalogService.Infrastructure.Kafka;
 using EcommerceServices.Shared.ValueObjects;
 using FluentValidation;
 using MediatR;
@@ -21,7 +22,7 @@ public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCo
             .LessThanOrEqualTo(50);
     }
 }
-public class UpdateCategoryCommandHandler(ICategoryRepository categoryRepository)
+public class UpdateCategoryCommandHandler(ICategoryRepository categoryRepository, KafkaEventPublisher kafkaEventPublisher)
     : IRequestHandler<UpdateCategoryCommand, bool>
 {
     public async Task<bool> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)

@@ -1,4 +1,4 @@
-﻿using CatalogService.Domain.Entities.ProductEntity;
+﻿using CatalogService.Domain.Aggregates.ProductEntity;
 
 namespace CatalogService.Domain.Repositories;
 

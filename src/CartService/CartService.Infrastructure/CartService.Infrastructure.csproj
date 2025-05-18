@@ -11,6 +11,8 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Options" Version="9.0.4" />
 		<PackageReference Include="Aspire.MongoDB.Driver" Version="9.2.0" />
+		<PackageReference Include="Aspire.Confluent.Kafka" Version="9.2.1" />
+
 	</ItemGroup>
 
 	<ItemGroup>

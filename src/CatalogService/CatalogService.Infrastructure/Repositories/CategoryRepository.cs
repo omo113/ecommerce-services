@@ -1,4 +1,4 @@
-﻿using CatalogService.Domain.Entities.CategoryEntity;
+﻿using CatalogService.Domain.Aggregates.CategoryEntity;
 using CatalogService.Domain.Repositories;
 using CatalogService.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;

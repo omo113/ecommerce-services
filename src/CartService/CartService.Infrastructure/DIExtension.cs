@@ -1,6 +1,7 @@
 ﻿using CartService.Domain.Repositories;
 using CartService.Infrastructure.Configurations;
 using CartService.Infrastructure.Repositories;
+using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -23,6 +24,17 @@ public static class DIExtension
     public static IHostApplicationBuilder AddMongoClient(this IHostApplicationBuilder builder)
     {
         builder.AddMongoDBClient("carts-db");
+        return builder;
+    }
+    public static IHostApplicationBuilder AddKafka(this IHostApplicationBuilder builder)
+    {
+        builder.AddKafkaConsumer<string, string>("kafka", configureBuilder =>
+        {
+            configureBuilder.Config.AutoOffsetReset = AutoOffsetReset.Earliest;
+            configureBuilder.Config.EnableAutoOffsetStore = true;
+            configureBuilder.Config.EnableAutoCommit = false;
+            configureBuilder.Config.GroupId = "cart-service-group";
+        });
         return builder;
     }
 }

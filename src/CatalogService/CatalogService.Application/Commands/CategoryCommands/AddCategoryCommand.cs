@@ -1,5 +1,5 @@
 using CatalogService.Application.Dtos;
-using CatalogService.Domain.Entities.CategoryEntity;
+using CatalogService.Domain.Aggregates.CategoryEntity;
 using CatalogService.Domain.Repositories;
 using EcommerceServices.Shared.ValueObjects;
 using FluentValidation;

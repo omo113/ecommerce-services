@@ -1,7 +1,7 @@
 ﻿using CatalogService.Application.Commands.ProductCommands;
 using CatalogService.Application.Dtos;
-using CatalogService.Domain.Entities.CategoryEntity;
-using CatalogService.Domain.Entities.ProductEntity;
+using CatalogService.Domain.Aggregates.CategoryEntity;
+using CatalogService.Domain.Aggregates.ProductEntity;
 using CatalogService.Domain.Repositories;
 using EcommerceServices.Shared;
 using FluentAssertions;

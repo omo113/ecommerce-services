@@ -1,5 +1,5 @@
-﻿using CatalogService.Domain.Entities.CategoryEntity;
-using CatalogService.Domain.Entities.ProductEntity;
+﻿using CatalogService.Domain.Aggregates.CategoryEntity;
+using CatalogService.Domain.Aggregates.ProductEntity;
 using CatalogService.Infrastructure.Persistance;
 using CatalogService.Infrastructure.Repositories;
 using EcommerceServices.Shared;

@@ -28,23 +28,15 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
     }
 }
 
-public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, bool>
+public class UpdateProductCommandHandler(IProductRepository productRepository, ICategoryRepository categoryRepository)
+    : IRequestHandler<UpdateProductCommand, bool>
 {
-    private readonly IProductRepository _productRepository;
-    private readonly ICategoryRepository _categoryRepository;
-
-    public UpdateProductCommandHandler(IProductRepository productRepository, ICategoryRepository categoryRepository)
-    {
-        _productRepository = productRepository;
-        _categoryRepository = categoryRepository;
-    }
-
     public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await _productRepository.GetByIdAsync(request.Id);
+        var product = await productRepository.GetByIdAsync(request.Id);
         if (product == null) return false;
 
-        var category = await _categoryRepository.GetByIdAsync(request.CategoryId);
+        var category = await categoryRepository.GetByIdAsync(request.CategoryId);
         if (category == null) throw new Exception($"Category with ID {request.CategoryId} not found.");
 
         var imageVo = !string.IsNullOrEmpty(request.Image)
@@ -52,7 +44,7 @@ public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand,
             : null;
 
         product.Update(request.Name, request.Description ?? string.Empty, Money.Create(request.Price.Amount, request.Price.Currency), request.Amount, request.CategoryId, imageVo);
-        await _productRepository.UpdateAsync(product);
+        await productRepository.UpdateAsync(product);
 
         return true;
     }

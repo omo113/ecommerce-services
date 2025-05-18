@@ -23,6 +23,8 @@ builder.AddPostgres();
 builder.Services.AddInfrastructure();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.AddKafka();
+builder.Services.AddHostedService<TestBackgroundService>();
 
 var app = builder.Build();
 

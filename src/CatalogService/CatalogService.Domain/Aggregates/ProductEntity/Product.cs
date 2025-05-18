@@ -1,10 +1,10 @@
-﻿using CatalogService.Domain.Entities.CategoryEntity;
+﻿using CatalogService.Domain.Aggregates.CategoryEntity;
 using EcommerceServices.Shared;
 using EcommerceServices.Shared.ValueObjects;
 
-namespace CatalogService.Domain.Entities.ProductEntity;
+namespace CatalogService.Domain.Aggregates.ProductEntity;
 
-public class Product : Entity
+public class Product : AggregateRoot
 {
     public string Name { get; private set; }
     public string Description { get; private set; }

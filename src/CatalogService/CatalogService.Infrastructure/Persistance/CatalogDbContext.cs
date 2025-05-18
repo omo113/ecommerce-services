@@ -1,5 +1,5 @@
-﻿using CatalogService.Domain.Entities.CategoryEntity;
-using CatalogService.Domain.Entities.ProductEntity;
+﻿using CatalogService.Domain.Aggregates.CategoryEntity;
+using CatalogService.Domain.Aggregates.ProductEntity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CatalogService.Infrastructure.Persistance;

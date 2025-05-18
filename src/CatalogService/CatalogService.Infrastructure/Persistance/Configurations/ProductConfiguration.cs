@@ -1,4 +1,4 @@
-﻿using CatalogService.Domain.Entities.ProductEntity;
+﻿using CatalogService.Domain.Aggregates.ProductEntity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,7 +11,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.ToTable("Products");
 
         builder.HasKey(c => c.Id);
-
+        builder.HasAlternateKey(x => x.UId);
+        builder.Property(x => x.UId).HasDefaultValueSql("gen_random_uuid()");
         builder.Property(c => c.Name)
             .HasMaxLength(64);
 

@@ -1,8 +1,8 @@
-using CatalogService.Domain.Entities.ProductEntity;
 using CatalogService.Domain.Repositories;
 using CatalogService.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using CatalogService.Domain.Aggregates.ProductEntity;
 
 namespace CatalogService.Infrastructure.Repositories;
 

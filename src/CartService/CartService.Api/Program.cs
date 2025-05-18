@@ -25,6 +25,8 @@ builder.Services.ConfigureHttpJsonOptions(json =>
 });
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.AddKafka();
+builder.Services.AddHostedService<KafkaConsumerService>();
 
 var app = builder.Build();
 
@@ -47,7 +49,16 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+try
+{
+    app.Run();
+
+}
+catch (Exception e)
+{
+    Console.WriteLine(e);
+    throw;
+}
 
 namespace CartService.Api
 {
