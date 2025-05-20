@@ -1,9 +1,14 @@
-﻿using Confluent.Kafka;
+﻿using CartService.Domain.Handlers;
+using CartService.Domain.Handlers.Events;
+using Confluent.Kafka;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using System.Text.Json;
 
-namespace CartService.Infrastructure;
+namespace CartService.Infrastructure.Kafka;
 
-public class KafkaConsumerService(IConsumer<string, string> consumer) : BackgroundService
+public class KafkaConsumerService(IConsumer<string, string> consumer, ILogger<KafkaConsumerService> logger, IServiceProvider serviceProvider) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -28,6 +33,11 @@ public class KafkaConsumerService(IConsumer<string, string> consumer) : Backgrou
 
                 if (consumeResult?.Message == null) continue;
 
+                var message = JsonSerializer.Deserialize<ProductUpdatedEvent>(consumeResult.Message.Value);
+
+                var scope = serviceProvider.CreateScope();
+                var handler = scope.ServiceProvider.GetRequiredService<IProductUpdatedHandler>();
+                await handler.Handle(message);
                 consumer.StoreOffset(consumeResult);
             }
             catch (Exception ex)
@@ -37,3 +47,4 @@ public class KafkaConsumerService(IConsumer<string, string> consumer) : Backgrou
         }
     }
 }
+

@@ -1,5 +1,6 @@
 ﻿using CartService.Domain.Repositories;
 using CartService.Infrastructure.Configurations;
+using CartService.Infrastructure.Kafka;
 using CartService.Infrastructure.Repositories;
 using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
@@ -31,10 +32,10 @@ public static class DIExtension
         builder.AddKafkaConsumer<string, string>("kafka", configureBuilder =>
         {
             configureBuilder.Config.AutoOffsetReset = AutoOffsetReset.Earliest;
-            configureBuilder.Config.EnableAutoOffsetStore = true;
-            configureBuilder.Config.EnableAutoCommit = false;
+            configureBuilder.Config.EnableAutoOffsetStore = false;
             configureBuilder.Config.GroupId = "cart-service-group";
         });
+        builder.Services.AddHostedService<KafkaConsumerService>();
         return builder;
     }
 }

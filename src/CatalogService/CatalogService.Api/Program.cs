@@ -2,6 +2,7 @@ using CatalogService.Api;
 using CatalogService.Api.Extensions;
 using CatalogService.Application;
 using CatalogService.Infrastructure;
+using EcommerceServices.ServiceDefaults;
 using Scalar.AspNetCore;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -24,6 +25,7 @@ builder.Services.AddInfrastructure();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.AddKafka();
+builder.AddServiceDefaults();
 
 var app = builder.Build();
 

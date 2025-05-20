@@ -3,6 +3,7 @@ using CartService.Api.Endpoints;
 using CartService.Api.Extensions;
 using CartService.Application;
 using CartService.Infrastructure;
+using EcommerceServices.ServiceDefaults;
 using Scalar.AspNetCore;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddErrorHandlingWithRules();
 builder.Services.AddApplication();
+builder.Services.AddServices();
 builder.AddMongoClient();
 builder.Services.AddInfrastructure(builder.Configuration);
 
@@ -26,7 +28,8 @@ builder.Services.ConfigureHttpJsonOptions(json =>
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.AddKafka();
-builder.Services.AddHostedService<KafkaConsumerService>();
+
+builder.AddServiceDefaults();
 
 var app = builder.Build();
 
