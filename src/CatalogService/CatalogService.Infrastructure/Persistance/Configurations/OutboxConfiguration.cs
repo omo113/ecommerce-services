@@ -11,6 +11,5 @@ public class OutboxConfiguration : IEntityTypeConfiguration<OutboxMessage>
         builder.ToTable("OutboxMessages")
             .HasKey(x => x.Id);
 
-        builder.Property(x => x.Message).HasJsonConversion();
     }
 }

@@ -1,11 +1,30 @@
-﻿namespace CatalogService.Domain.Models;
+﻿using System.Text.Json;
+
+namespace CatalogService.Domain.Models;
 
 public class OutboxMessage
 {
-    public required Guid Id { get; init; }
-    public required Guid EventId { get; init; }
-    public required string MessageType { get; init; }
-    public required object Message { get; init; }
-    public DateTimeOffset ProcessedOnUtc { get; init; }
-    public required bool IsPublished { get; set; }
+    private OutboxMessage()
+    {
+
+    }
+
+    public OutboxMessage(
+        Guid id,
+        Guid eventId,
+        string messageType,
+        object message)
+    {
+        Id = id;
+        EventId = eventId;
+        MessageType = messageType;
+        Message = JsonSerializer.SerializeToElement(message, SystemJson.JsonSerializerOptions);
+    }
+
+    public Guid Id { get; private set; }
+    public Guid EventId { get; private set; }
+    public string MessageType { get; private set; }
+    public JsonElement Message { get; private set; }
+    public DateTimeOffset ProcessedOnUtc { get; set; }
+    public bool IsPublished { get; set; }
 }

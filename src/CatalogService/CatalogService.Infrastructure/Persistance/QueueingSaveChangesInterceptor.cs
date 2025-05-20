@@ -18,13 +18,12 @@ public class DomainEventInterceptor : SaveChangesInterceptor
         foreach (var entity in domainEntities)
         {
             ctx.Set<OutboxMessage>().AddRange(entity.PendingDomainEvents().Select(x => new OutboxMessage
-            {
-                Id = Guid.NewGuid(),
-                Message = x,
-                EventId = x.UId,
-                MessageType = x.GetType().ToString(),
-                IsPublished = false,
-            }));
+            (
+                Guid.NewGuid(),
+                x.UId,
+                x.GetType().ToString(),
+                x
+            )));
         }
         return base.SavingChanges(eventData, result);
     }
@@ -40,13 +39,12 @@ public class DomainEventInterceptor : SaveChangesInterceptor
         foreach (var entity in domainEntities)
         {
             ctx.Set<OutboxMessage>().AddRange(entity.PendingDomainEvents().Select(x => new OutboxMessage
-            {
-                Id = Guid.NewGuid(),
-                Message = x,
-                EventId = x.UId,
-                MessageType = x.GetType().ToString(),
-                IsPublished = false,
-            }));
+            (
+                Guid.NewGuid(),
+                x.UId,
+                x.GetType().ToString(),
+                x
+            )));
         }
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
