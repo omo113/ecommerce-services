@@ -1,4 +1,5 @@
-﻿using CatalogService.Domain.Aggregates.ProductEntity.Events;
+﻿using CatalogService.Domain;
+using CatalogService.Domain.Aggregates.ProductEntity.Events;
 using CatalogService.Domain.Models;
 using CatalogService.Infrastructure.Kafka;
 using CatalogService.Infrastructure.Persistance;
@@ -43,11 +44,7 @@ public class EventPublisher(KafkaEventPublisher kafkaEventPublisher, IServiceSco
                     {
                         case var type when type == typeof(ProductUpdatedEvent).ToString():
                             @event.IsPublished = true;
-                            var message = JsonSerializer.Deserialize<ProductUpdatedEvent>(@event.Message.ToString()!, new JsonSerializerOptions
-                            {
-                                PropertyNameCaseInsensitive = true,
-
-                            })!;
+                            var message = JsonSerializer.Deserialize<ProductUpdatedEvent>(@event.Message.ToString()!, SystemJson.JsonSerializerOptions)!;
                             await kafkaEventPublisher.PublishProductUpdatedEvent(message, source.Token);
                             break;
                         default:

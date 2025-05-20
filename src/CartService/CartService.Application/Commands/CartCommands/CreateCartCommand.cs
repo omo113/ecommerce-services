@@ -41,6 +41,9 @@ public class CreateCartCommandHandler(ICartRepository cartRepository) : IRequest
 {
     public async Task<OneOf<bool, Error>> Handle(CreateCartCommand request, CancellationToken cancellationToken)
     {
+        if (await cartRepository.IdExists(request.Id, cancellationToken))
+            return new Error("CartAlreadyExists", "Cart with this ID already exists");
+
         var existing = await cartRepository.GetCartById(request.Id, cancellationToken);
         var item = new CartItem
         {
