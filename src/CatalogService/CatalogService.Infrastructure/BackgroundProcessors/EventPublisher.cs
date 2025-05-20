@@ -44,8 +44,8 @@ public class EventPublisher(KafkaEventPublisher kafkaEventPublisher, IServiceSco
                     {
                         case var type when type == typeof(ProductUpdatedEvent).ToString():
                             @event.IsPublished = true;
-                            var message = JsonSerializer.Deserialize<ProductUpdatedEvent>(@event.Message.ToString()!, SystemJson.JsonSerializerOptions)!;
-                            await kafkaEventPublisher.PublishProductUpdatedEvent(message, source.Token);
+                            var message = @event.Message.Deserialize<ProductUpdatedEvent>(SystemJson.JsonSerializerOptions);
+                            await kafkaEventPublisher.PublishProductUpdatedEvent(message!, source.Token);
                             break;
                         default:
                             @event.IsPublished = true;
